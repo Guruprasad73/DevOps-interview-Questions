@@ -1,0 +1,58 @@
+1. A CentOS server is running slow. How would you diagnose and troubleshoot the issue?
+
+
+2. You are unable to SSH into a CentOS server. How would you resolve this problem?
+
+
+3. A service is failing to start after a reboot. How would you debug and fix it?
+
+
+4. You need to add a new disk to a CentOS system. How would you partition, format, and mount it?
+
+
+5. A user accidentally deleted important system files. How would you recover or restore them?
+
+
+6. The /var directory is full, causing application failures. How would you free up space?
+
+
+7. You need to upgrade the kernel on a CentOS server. How would you safely perform this?
+
+
+8. A firewall is blocking access to a specific port. How would you check and modify firewall rules?
+
+
+9. The system is stuck in emergency mode after a reboot. How would you troubleshoot and fix it?
+
+
+10. You need to automate the installation of software on multiple CentOS servers. What approach would you take?
+
+
+11. A user complains that their cron job is not executing. How would you investigate and resolve this?
+
+
+12. A critical application is crashing due to memory issues. How would you analyze and fix this?
+
+
+13. A network interface is down after a reboot. How would you bring it back up permanently?
+
+
+14. You need to set up a secure SFTP-only user account on CentOS. How would you configure this?
+
+
+15. A log file is growing too fast, consuming disk space. How would you manage and rotate logs efficiently?
+
+
+16. You suspect that SELinux is blocking an application. How would you verify and fix the issue?
+
+
+17. A new software package dependency is missing. How would you install it without breaking the system?
+
+
+18. The system time is incorrect. How would you sync it with an NTP server?
+
+
+19. A user needs to run a script with root privileges but without full root access. How would you configure this securely?
+
+
+20. You need to migrate a CentOS server to a new machine. What steps would you take to ensure a smooth migration?
