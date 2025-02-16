@@ -1,5 +1,74 @@
 1. A CentOS server is running slow. How would you diagnose and troubleshoot the issue?
 
+To diagnose and troubleshoot a slow CentOS server, follow these steps systematically:
+1. Check System Load & Resource Usage
+   a.Check CPU Load
+     uptime
+     top -o %CPU
+     htop  # If installed
+     Look for high CPU usage processes.
+     If the load average (first three numbers in uptime) is high, it indicates CPU bottlenecks.
+   b.Check Memory Usage
+    free -m
+    vmstat 1 5
+    Look at the "available" memory.
+   If swap usage is high, the server may be struggling with RAM shortages.
+  c.Check Disk I/O
+    iostat -x 1 5  # Requires sysstat package
+    iotop         # If installed
+    df -h
+    High I/O wait time (wa %) means disk contention.
+    Use iotop to find I/O-intensive processes.
+2. Check Running Processes
+   ps aux --sort=-%cpu | head -10  # Top CPU-consuming processes
+   ps aux --sort=-%mem | head -10  # Top memory-consuming processes
+   Identify any rogue or misbehaving processes.
+3. Check Network Performance
+   netstat -tunlp   # Show open ports and connections
+   ss -tulwn        # Alternative to netstat
+   ping -c 5 google.com  # Check internet connectivity
+   High network connections may indicate DDoS attacks or misconfigured services.
+   Check for excessive TCP connections.
+4. Identify Zombie or Defunct Processes
+   ps aux | grep Z
+   If many zombie processes exist, they may be slowing down the system.
+5. Check Logs for Errors
+   journalctl -xe
+   dmesg -T | tail -50
+   cat /var/log/messages | tail -50
+   Look for disk failures, OOM (Out of Memory) errors, or service crashes.
+6. Check System Temperature
+   sensors  # If lm_sensors is installed
+   Overheating can throttle the CPU.
+7. Verify Running Services
+   systemctl list-units --type=service --state=running
+   Ensure unnecessary services are not consuming resources.
+8. Check SELinux & Firewall Issues
+   sestatus
+   iptables -L -n -v
+   Misconfigured SELinux can cause performance issues.
+9. Check for High Swap Usage
+   swapon -s
+   If swap is heavily used, increase RAM or optimize memory usage.
+10. Check for Failing Disks (SMART)
+  smartctl -a /dev/sda  # Requires smartmontools
+  Look for reallocated sectors or CRC errors.
+11. Optimize Performance
+  Clear Cache
+  sync; echo 3 > /proc/sys/vm/drop_caches
+  Restart Services or Reboot
+  systemctl restart <service>
+  reboot
+12. Long-Term Fixes
+  Upgrade hardware (RAM, CPU, Disk) if overloaded.
+  Disable unused services (systemctl disable <service>)
+  Optimize application/database queries if they are causing high CPU/Memory usage.
+  Set up monitoring (Prometheus, Grafana, Zabbix) to track resource utilization.
+
+
+
+
+
 
 2. You are unable to SSH into a CentOS server. How would you resolve this problem?
 
