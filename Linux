@@ -99,6 +99,62 @@ To diagnose and troubleshoot a slow CentOS server, follow these steps systematic
 
 
 3. A service is failing to start after a reboot. How would you debug and fix it?
+  1. Check Service Status
+     systemctl status <service-name>
+     Example for Apache (httpd):
+     systemctl status httpd
+     If it shows "failed" or "inactive (dead)", note the error message.
+  2. Check Logs for Errors
+     journalctl -xe -u <service-name>
+     Example: journalctl -xe -u httpd
+     Look for permission issues, missing dependencies, or misconfiguration errors.
+     Check system logs:
+     dmesg | tail -50
+     cat /var/log/messages | tail -50
+  3. Try Restarting the Service
+     systemctl restart <service-name>
+     If it starts manually but fails on reboot, check automatic startup settings.
+  4. Check If the Service is Enabled on Boot
+     systemctl is-enabled <service-name>
+     If disabled, enable it:
+     systemctl enable <service-name>
+  5. Verify Configuration Files
+     If the service has a configuration file, check for syntax errors:
+     <service-binary> --test-config  # If supported
+     Example for Nginx: nginx -t 
+     If the configuration file is corrupt, restore a backup.
+  6. Check Dependencies
+     systemctl list-dependencies <service-name>
+     systemctl list-units --failed
+     If a required service is failing, start that first.
+  7. Verify SELinux & Firewall Rules
+     Check SELinux
+     sestatus
+       If enforcing, try temporarily disabling it:
+           setenforce 0
+           systemctl restart <service-name>
+       Check Firewall
+     firewall-cmd --list-all
+     If the service runs on a blocked port, allow it
+     firewall-cmd --permanent --add-port=8080/tcp
+     firewall-cmd --reload
+8. Check File & Directory Permissions
+   If the service has permission errors, check:
+   ls -l /path/to/service/files
+   Fix ownership:
+   chown -R user:group /path/to/files
+   chmod -R 755 /path/to/files
+ 9. Reinstall the Service (If Necessary)
+   yum remove -y <service-name>
+   yum install -y <service-name>
+   systemctl restart <service-name>
+10. If Nothing Works, Check Kernel & System Updates
+   yum update -y
+   reboot
+
+
+
+
 
 
 4. You need to add a new disk to a CentOS system. How would you partition, format, and mount it?
