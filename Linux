@@ -65,12 +65,37 @@ To diagnose and troubleshoot a slow CentOS server, follow these steps systematic
   Optimize application/database queries if they are causing high CPU/Memory usage.
   Set up monitoring (Prometheus, Grafana, Zabbix) to track resource utilization.
 
-
-
-
-
-
 2. You are unable to SSH into a CentOS server. How would you resolve this problem?
+   1. Check Network Connectivity 
+    From Your Local Machine
+    Ping the Server
+    ping -c 5 <server-ip>
+    If ping fails, the server may be down or network issues exist.
+    check Open Ports
+    nc -zv <server-ip> 22  # OR
+    telnet <server-ip> 22
+    if port 22 is closed, SSH might not be running or is blocked by a firewall.
+    Traceroute to Debug Network Issues
+    traceroute <server-ip>
+    Helps identify network-level issues.
+   2. Check If SSH Service is Running
+   If you have console access (AWS, VMware, or physical access), log in and check:
+   systemctl status sshd
+   If it's inactive or failed, restart it:
+   systemctl restart sshd
+   systemctl enable sshd
+   If it’s not installed:
+   yum install -y openssh-server
+   systemctl start sshd
+  3. Verify Firewall Rules
+   Check if firewalld or iptables is blocking SSH:
+   firewall-cmd --list-all
+   iptables -L -n -v
+   If port 22 is blocked, allow it:
+   firewall-cmd --permanent --add-service=
+
+
+
 
 
 3. A service is failing to start after a reboot. How would you debug and fix it?
